@@ -463,9 +463,12 @@ unhook_sct_compat:
 #undef syscall_lookup
 #undef ksu_get_ksym_size32
 
+static bool bl_execve_patched_early __read_mostly = false;
+
 static int bl_hack_init_thread(void *data)
 {
 	set_user_nice(current, 19); // low prio
+	extern char hook_type[];
 
 loop_start:
 	msleep(1000);
@@ -476,9 +479,11 @@ loop_start:
 
 	bool faccessat = !!!bl_hook_faccessat(data);
 	bool newfstatat = !!!bl_hook_newfstatat(data);
-	bool execve = !!!bl_hook_execve(data);
+	bool execve = bl_execve_patched_early || !!!bl_hook_execve(data);
 
 	pr_info("branch_link: done! faccessat: %s newfstatat: %s execve: %s\n", (faccessat) ? "ok" : "fail", (newfstatat) ? "ok" : "fail", (execve) ? "ok" : "fail");
+
+	hook_type[12] = 48 + faccessat + newfstatat + execve;
 
 	dotted_kallsyms_destroy_hash_array();
 
@@ -491,6 +496,18 @@ static int ksu_branch_link_patch_init()
 	try_mirror_syscall_table();
 	syscall_table_ksud_hook_init();
 	syscall_table_sucompat_enable();
+
+	/**
+	 *  sys_call_table's execve slot can already be taken by another hooker
+	 *  (e.g. KernelPatch redirects it to its own trampolines), which
+	 *  read_and_replace_syscall refuses. Nothing would then see first stage
+	 *  init's "/system/bin/init selinux_setup", and preinit would never run.
+	 *  branch link execve right away instead of waiting for the kthread.
+	 */
+	if (!aarch64_execve) {
+		pr_info("branch_link: execve not hooked via sys_call_table, patching it now\n");
+		bl_execve_patched_early = !bl_hook_execve(NULL);
+	}
 
 	/**
 	 *  we move sucompat hook initialization to a kthread
