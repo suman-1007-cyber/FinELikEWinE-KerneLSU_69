@@ -1,5 +1,29 @@
+
 **English** | [Español](README_ES.md) | [简体中文](README_CN.md) | [繁體中文](README_TW.md) | [日本語](README_JP.md) | [한국어](README_KR.md) | [Polski](README_PL.md) | [Português (Brasil)](README_PT-BR.md) | [Türkçe](README_TR.md) | [Русский](README_RU.md) | [Tiếng Việt](README_VI.md) | [Indonesia](README_ID.md) | [עברית](README_IW.md) | [हिंदी](README_IN.md) | [Italiano](README_IT.md)
 
+# FinELikEWinE-KerneLSU_69
+
+This is a copy of the **KernelSU driver** used by the **FinELikEWinE_69** kernel builder:
+https://github.com/suman-1007-cyber/FinELikEWinE-MT6768-ActioN_69
+
+The builder downloads this repo at build time, branch `FinELikEWinE_69`. The only change from
+the source it was copied from is that `kernel/setup.sh` clones this repo.
+
+## Credits
+
+All credit goes to the original authors:
+- **KernelSU**: tiann and contributors, https://github.com/tiann/KernelSU
+- **KernelSU for older (non-GKI) kernels**: backslashxx, https://github.com/backslashxx/KernelSU
+- **ShockWAVE branch** (SUSFS support for this kernel): @MrShockWAVEog, https://github.com/MrShockWAVEog/KernelSU
+
+## Original README
+
+The original project README is unchanged in [`docs/README.md`](docs/README.md).
+
+## License
+
+The driver under `kernel/` is **GPL-2.0** (`kernel/LICENSE`). The rest of the repo is
+**GPL-3.0** (`LICENSE`).
 # KernelSU
 
 <img src="https://kernelsu.org/logo.png" style="width: 96px;" alt="logo">
