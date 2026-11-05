@@ -39,11 +39,11 @@ perform_cleanup() {
 # Sets up or update KernelSU environment
 setup_kernelsu() {
     echo "[+] Setting up KernelSU..."
-    test -d "$GKI_ROOT/KernelSU" || git clone https://github.com/MrShockWAVEog/KernelSU && echo "[+] Repository cloned."
+    test -d "$GKI_ROOT/KernelSU" || git clone https://github.com/suman-1007-cyber/FinELikEWinE-KerneLSU_69 && echo "[+] Repository cloned."
     cd "$GKI_ROOT/KernelSU"
     git stash && echo "[-] Stashed current changes."
     if [ "$(git status | grep -Po 'v\d+(\.\d+)*' | head -n1)" ]; then
-        git checkout shockwave && echo "[-] Switched to shockwave branch."
+        git checkout FinELikEWinE_69 && echo "[-] Switched to FinELikEWinE_69 branch."
     fi
     git pull && echo "[+] Repository updated."
     if [ -z "${1-}" ]; then
